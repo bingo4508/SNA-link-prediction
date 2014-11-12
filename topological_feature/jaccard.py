@@ -9,4 +9,4 @@ m = SocialNetwork("../data/train_edges.txt")
 edge_file = sys.argv[1]
 
 # Jaccard Coefficient
-pair_score(m.G, nx.jaccard_coefficient, edge_file, 'output/jaccard_test.txt')
+pair_score(m.G, nx.jaccard_coefficient, edge_file, '../output/jaccard_test.txt')

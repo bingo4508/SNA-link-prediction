@@ -41,6 +41,7 @@ def load_input(input_file):
             l = l.strip().split(':')
             li[int(l[0])] = [int(e) for e in l[1].split(',')]
     return li
+
 if __name__ == '__main__':
 
     input_file = sys.argv[1]

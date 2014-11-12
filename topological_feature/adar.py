@@ -9,4 +9,4 @@ m = SocialNetwork("../data/train_edges.txt")
 edge_file = sys.argv[1]
 
 # Adamic/Adar
-pair_score(m.G, nx.adamic_adar_index, edge_file, 'output/adar_test.txt')
+pair_score(m.G, nx.adamic_adar_index, edge_file, '../output/adar_test.txt')

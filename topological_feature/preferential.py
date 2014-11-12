@@ -9,4 +9,4 @@ m = SocialNetwork("../data/train_edges.txt")
 edge_file = sys.argv[1]
 
 # Preferential Attachment
-pair_score(m.G, nx.preferential_attachment, edge_file, 'output/preferential_test.txt')
+pair_score(m.G, nx.preferential_attachment, edge_file, '../output/preferential_test.txt')
