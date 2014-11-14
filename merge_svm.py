@@ -31,6 +31,6 @@ with open(svm, 'r') as f:
         ll = l.strip()
         key = pair.pop(0)
         for i, j in enumerate(map[key]):
-            ll += ' %d:%f' % (largest_key+i+1, j)
+            ll += ' %d:%g' % (largest_key+i+1, j)
         fo.write(ll+'\n')
 
