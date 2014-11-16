@@ -2,6 +2,19 @@ __author__ = 'bingo4508'
 
 import sys
 
+def svm_to_list(line, feature_num):
+        l = l.strip().split(' ')
+        map = {}
+        for e in l[1:]:
+            e = e.split(':')
+            map[int(e[0])] = float(e[1])
+        li = [int(l[0])]
+        for i in range(1, feature_num+1):
+            if i in map:
+                li.append(map[i])
+            else:
+                li.append(0)
+
 svm_file = sys.argv[1]
 feature_num = int(sys.argv[2])
 f_csv = open(svm_file.replace('.txt', '.csv'), 'w')
