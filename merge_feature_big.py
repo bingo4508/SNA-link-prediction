@@ -17,10 +17,12 @@ def output(f, table_key, table_val):
     f.flush()
 
 
-def merge_feature(f, table_key, table_val, curr_node):
+def merge_feature(f, table_key, table_val, curr_node, index):
     tb = {}
     last_pos = f.tell()
-    for l in f:
+    while True:
+        l = f.readline()
+        if l == '': break
         try:
             l = l.strip().split(' ')
             if l[0] == curr_node:
@@ -35,15 +37,19 @@ def merge_feature(f, table_key, table_val, curr_node):
         if p in tb:
             table_val[i].append(tb[p])
         else:
-            table_val[i].append(0.0)
+            if index == shortest_path_index:
+                table_val[i].append(100000)
+            else:
+                table_val[i].append(0)
 
 def batch(ft_f, fo, table_key, table_val, curr_node):
-    for f in ft_f:
-        merge_feature(f, table_key, table_val, curr_node)
+    for i, f in enumerate(ft_f):
+        merge_feature(f, table_key, table_val, curr_node, i)
     # Ouput
     output(fo, table_key, table_val)
 
 edge_file = sys.argv[1]
+shortest_path_index = int(sys.argv[3])
 table_key = []
 table_val = []
 ft_f = []

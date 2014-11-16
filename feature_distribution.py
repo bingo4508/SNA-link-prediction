@@ -26,4 +26,4 @@ feature_num = len(li[0])
 # for i in range(feature_num):
 #   histogram(li, i, 10)
 bins = [i*interval for i in range(interval_num+1)]
-histogram(li, 4, bins)
+histogram(li, 3, bins)

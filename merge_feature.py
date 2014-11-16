@@ -3,6 +3,7 @@ __author__ = 'bingo4508'
 import sys
 
 edge_file = sys.argv[1]
+shortest_path_index = int(sys.argv[2])
 
 table = {}
 
@@ -12,7 +13,7 @@ with open(edge_file, 'r') as f:
         l = l.strip().replace(' ', '_')
         table[l] = []
 
-for file in sys.argv[2:]:
+for i, file in enumerate(sys.argv[3:]):
     # '\t' delimited
     with open(file, 'r') as f:
         tb = {}
@@ -26,7 +27,10 @@ for file in sys.argv[2:]:
             if p in tb:
                 table[p].append(tb[p])
             else:
-                table[p].append(0.0)
+                if i == shortest_path_index:
+                    table[p].append(100000)
+                else:
+                    table[p].append(0)
 
 with open(edge_file.replace('.txt', '')+'_feature.txt', 'w') as f:
     for k in table:

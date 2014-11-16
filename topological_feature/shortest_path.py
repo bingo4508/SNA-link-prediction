@@ -27,4 +27,4 @@ m = SocialNetwork("../data/train_edges.txt")
 edge_file = sys.argv[1]
 
 # Shortest path
-pair_score(m.G, shortest_path, edge_file, '../output/shortest_path_test2.txt')
+pair_score(m.G, shortest_path, edge_file, '../output/shortest_path_test.txt')
