@@ -68,18 +68,18 @@ with open(svm, 'r') as f:
         if len(pair) == 0:
             if curr_node is None: break
             print curr_node
-
+            map = []
             for ft in f_feature:
                 map.append(read_feature(ft, curr_node))
             pair, curr_node = read_pair(f_pair, curr_node)
         ll = l.strip()
         key = pair.pop(0)
+
         for i in range(feature_number):
             if key in map[i]:
                 ll += ' %d:%g' % (largest_key+i+1, map[i][key])
             else:
                 if i == feature_number-1:
-                    print key
                     ll += ' %d:100000' % (largest_key+feature_number)
                 else:
                     ll += ' %d:0' % (largest_key+i+1)
