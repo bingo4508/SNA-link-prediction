@@ -1,0 +1,31 @@
+# Project: mySvmScale
+# Makefile created by Dev-C++ 5.7.1
+
+CPP      = g++.exe
+CC       = gcc.exe
+WINDRES  = windres.exe
+OBJ      = svm.o svm-scale.o
+LINKOBJ  = svm.o svm-scale.o
+LIBS     = -L"C:/Dev-Cpp Portable/64位元/MinGW64/lib" -L"C:/Dev-Cpp Portable/64位元/MinGW64/x86_64-w64-mingw32/lib" -static-libgcc -g3
+INCS     = -I"C:/Dev-Cpp Portable/64位元/MinGW64/include" -I"C:/Dev-Cpp Portable/64位元/MinGW64/x86_64-w64-mingw32/include" -I"C:/Dev-Cpp Portable/64位元/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include"
+CXXINCS  = -I"C:/Dev-Cpp Portable/64位元/MinGW64/include" -I"C:/Dev-Cpp Portable/64位元/MinGW64/x86_64-w64-mingw32/include" -I"C:/Dev-Cpp Portable/64位元/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include" -I"C:/Dev-Cpp Portable/64位元/MinGW64/lib/gcc/x86_64-w64-mingw32/4.8.1/include/c++"
+BIN      = mySvmScale.exe
+CXXFLAGS = $(CXXINCS) -g3
+CFLAGS   = $(INCS) -g3
+RM       = rm.exe -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before $(BIN) all-after
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o $(BIN) $(LIBS)
+
+svm.o: svm.cpp
+	$(CPP) -c svm.cpp -o svm.o $(CXXFLAGS)
+
+svm-scale.o: svm-scale.c
+	$(CPP) -c svm-scale.c -o svm-scale.o $(CXXFLAGS)

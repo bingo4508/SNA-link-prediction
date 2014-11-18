@@ -1,8 +1,11 @@
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.TreeSet;
 
@@ -35,52 +38,104 @@ public class OutputAns {
 
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		BufferedReader neighborsFile = null;
+		String line = null;
+		HashMap<Integer, ArrayList<Integer>> neighborMap = new HashMap<Integer, ArrayList<Integer>>();
+		String[] neighborStr;
+		ArrayList<Integer> neighbors;
+		try {
+			neighborsFile = new BufferedReader(new FileReader("neighbor.txt"));
+			line = neighborsFile.readLine();
+			while (line != null && !line.equals(""))
+			{
+				neighborStr = line.split(" ");
+				neighbors = new ArrayList<Integer>();
+				for (int i = 1; i < neighborStr.length; i++)
+					neighbors.add(Integer.parseInt(neighborStr[i]));
+				neighborMap.put(Integer.parseInt(neighborStr[0]), neighbors);
+				
+				line = neighborsFile.readLine();
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
 		BufferedReader pairIndexFile = null, predictProbFile = null;
 		PrintStream outputAns = null;
-		String line = null;
 		try 
 		{
-			outputAns = new PrintStream(new File("Predict.txt"));
-			pairIndexFile = new BufferedReader(new FileReader("I:\\outputTestPairIndexFeatureSelect.txt"));
-			predictProbFile = new BufferedReader(new FileReader("I:\\outputSvmlibFileTestWithWrongLabelFeatureSelect.scale.predict"));
+			outputAns = new PrintStream(new File("Predict3.txt"));
+			pairIndexFile = new BufferedReader(new FileReader("outputTestPairIndexFeatureSelect.txt"));
+			
 			int currentOutputNode = -1;
 			int maxFriends;
 			String pairStr[] = null;
 			String token[];
 			TreeSet<FriendshipProb> friendList = new TreeSet<FriendshipProb>();
+			TreeSet<FriendshipProb> reallyFriendList = new TreeSet<FriendshipProb>();
 			FriendshipProb newFriend;
-			predictProbFile.readLine();
+			int testNodeCount = 1;
 			line = pairIndexFile.readLine();
 			if (line != null)
 				pairStr = line.split(" ");
 			while (line != null && !line.equals(""))
 			{
 				currentOutputNode = Integer.parseInt(pairStr[0]);
+				predictProbFile = new BufferedReader(new FileReader("H:\\finalpredict2\\"+(testNodeCount++)+".predict"));
+				predictProbFile.readLine();
 				friendList.clear();
-				maxFriends = 30;
+				reallyFriendList.clear();
+				if (!neighborMap.containsKey(currentOutputNode))
+					maxFriends = 1;
+				else
+					maxFriends = neighborMap.get(currentOutputNode).size()/4+1;
+				maxFriends = maxFriends > 30 ? 30 : maxFriends;
 				while (line != null && !line.equals("") && Integer.parseInt(pairStr[0]) == currentOutputNode)
 				{
 					line = predictProbFile.readLine();
-					token = line.split(" ");
-					newFriend = new FriendshipProb(Integer.parseInt(pairStr[1]), Double.parseDouble(token[2]));
-					if (friendList.size() == maxFriends)
+					if (maxFriends != 0)
 					{
-						if (friendList.first().compareTo(newFriend) < 0)
+						token = line.split(" ");
+						newFriend = new FriendshipProb(Integer.parseInt(pairStr[1]), Double.parseDouble(token[1]));
+						if (!neighborMap.containsKey(currentOutputNode) || !neighborMap.get(currentOutputNode).contains(newFriend.otherNodeId))
 						{
-							friendList.pollFirst();
-							friendList.add(newFriend);
+							if (friendList.size() == maxFriends)
+							{
+								if (friendList.first().compareTo(newFriend) < 0)
+								{
+									friendList.pollFirst();
+									friendList.add(newFriend);
+								}
+							}
+							else
+								friendList.add(newFriend);
 						}
+						else
+							reallyFriendList.add(new FriendshipProb(Integer.parseInt(pairStr[1]), Double.parseDouble(token[1])));
 					}
-					else
-						friendList.add(newFriend);
 					
 					line = pairIndexFile.readLine();
 					if (line != null)
 						pairStr = line.split(" ");
 				}
 				
+				int getFriendsNum = 0;
+				Iterator<FriendshipProb> r = reallyFriendList.descendingIterator();
+				while (r.hasNext())
+				{
+					if (r.next().prob > friendList.first().prob)
+						getFriendsNum++;
+					else
+						break;
+				}
+				System.out.println(""+getFriendsNum+" "+reallyFriendList.size());
 				outputAns.print(""+currentOutputNode+":");
-				Iterator<FriendshipProb> f = friendList.descendingSet().descendingIterator();
+				Iterator<FriendshipProb> f = friendList.descendingIterator();
 				if (f.hasNext())
 					outputAns.print(""+f.next().otherNodeId);
 				while (f.hasNext())

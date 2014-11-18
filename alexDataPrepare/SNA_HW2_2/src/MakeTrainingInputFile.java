@@ -25,7 +25,7 @@ public class MakeTrainingInputFile {
 		}*/
 		
 		//create test data
-		/*AttributesTable table = new AttributesTable("column_type.json", "pre_nodes_profile.csv");
+		AttributesTable table = new AttributesTable("column_type.json", "pre_nodes_profile.csv");
 		table.init();
 		
 		BufferedReader testNodesFile = null;
@@ -35,8 +35,8 @@ public class MakeTrainingInputFile {
 		String nodes[];
 		try 
 		{
-			outputTestLibsvmStream = new PrintStream(new File("I:\\outputSvmlibFileTestWithWrongLabelFeatureSelect2.txt"));
-			outputTestNodePairIndex = new PrintStream(new File("I:\\outputTestPairIndexFeatureSelect2.csv"));
+			outputTestLibsvmStream = new PrintStream(new File("I:\\outputSvmlibFileTestWithWrongLabelFeatureSelect_2_4_10_22_23.txt"));
+			outputTestNodePairIndex = new PrintStream(new File("I:\\outputTestPairIndexFeatureSelect_2_4_10_22_23.txt"));
 			
 			testNodesFile = new BufferedReader(new FileReader("test_nodes.txt"));
 			line = testNodesFile.readLine();
@@ -51,7 +51,7 @@ public class MakeTrainingInputFile {
 					if (n != otherNode)
 					{
 						outputLibsvmFeatureSelect(false, n, otherNode, table, outputTestLibsvmStream);
-						outputTestNodePairIndex.println(""+n+","+otherNode);
+						outputTestNodePairIndex.println(""+n+" "+otherNode);
 					}
 				}
 			}
@@ -60,7 +60,7 @@ public class MakeTrainingInputFile {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		*/
+		
 		// merge positive and negative
 		/*BufferedReader file = null;
 		PrintStream outputArffStream = null, outputLibsvmStream = null;
