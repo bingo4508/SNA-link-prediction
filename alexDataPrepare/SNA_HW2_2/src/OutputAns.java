@@ -43,6 +43,8 @@ public class OutputAns {
 		HashMap<Integer, ArrayList<Integer>> neighborMap = new HashMap<Integer, ArrayList<Integer>>();
 		String[] neighborStr;
 		ArrayList<Integer> neighbors;
+		int degreeDistr[] = new int [10000];
+		int maxDegree = 0;
 		try {
 			neighborsFile = new BufferedReader(new FileReader("neighbor.txt"));
 			line = neighborsFile.readLine();
@@ -50,6 +52,9 @@ public class OutputAns {
 			{
 				neighborStr = line.split(" ");
 				neighbors = new ArrayList<Integer>();
+				/*degreeDistr[neighborStr.length-1]++;
+				if (neighborStr.length-1 > maxDegree)
+					maxDegree = neighborStr.length-1;*/
 				for (int i = 1; i < neighborStr.length; i++)
 					neighbors.add(Integer.parseInt(neighborStr[i]));
 				neighborMap.put(Integer.parseInt(neighborStr[0]), neighbors);
@@ -64,6 +69,8 @@ public class OutputAns {
 			e.printStackTrace();
 		}
 		
+		/*for (int i = 0; i < maxDegree+1; i++)
+			System.out.println(degreeDistr[i]);*/
 		
 		BufferedReader pairIndexFile = null, predictProbFile = null;
 		PrintStream outputAns = null;

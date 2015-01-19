@@ -135,11 +135,11 @@ void predict(FILE *input, FILE *output)
 			fprintf(output,"%g\n",predict_label);
 		}
 		
-		if (predict_label - 1 < 0.0000001)
+		if (abs(predict_label - 1) < 0.0000001)
 			++predictPositive;
-		if (target_label - 1 < 0.0000001)
+		if (abs(target_label - 1) < 0.0000001)
 			++reallyPositive;
-		if(predict_label == target_label && predict_label - 1 < 0.0000001)
+		if(predict_label == target_label && abs(predict_label - 1) < 0.0000001)
 			++truePositive;
 		if(predict_label == target_label)
 			++correct;
@@ -163,11 +163,11 @@ void predict(FILE *input, FILE *output)
 	{
 		info("Accuracy = %g%% (%d/%d) (classification)\n",
 			(double)correct/total*100,correct,total);
-		recall = (double)truePositive / reallyPositive;
-		precision = (double)truePositive / predictPositive;
+		recall = reallyPositive == 0 ? 0 : (double)truePositive / reallyPositive;
+		precision = predictPositive == 0 ? 0 : (double)truePositive / predictPositive;
 		/*if ((double)2*recall*precision/(recall+precision)*100 > 100 || (double)2*recall*precision/(recall+precision)*100 < 0)
 			printf("error: precision: %g, recall: %g\n", precision, recall);*/
-		info("F-score = %g%%\n", (double)2*recall*precision/(recall+precision)*100);
+		info("F-score = %g%%\n", truePositive == 0? 0 :(double)2*recall*precision/(recall+precision)*100);
 	}
 	if(predict_probability)
 		free(prob_estimates);
